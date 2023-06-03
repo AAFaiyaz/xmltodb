@@ -48,7 +48,7 @@ php xmltodb migrate
 php xmltodb app:all feed.xml
 ``
 
-6.To run the tests, use the following command:
+6. To run the tests, use the following command:
 
 ``
 php xmltodb test
