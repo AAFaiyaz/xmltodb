@@ -1,41 +1,66 @@
-<a href="https://supportukrainenow.org/"><img src="https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct.svg" width="100%"></a>
+# xmltodb
 
----
+This is a command line application, based on Laravel Zero, that processes XML data and stores it in a Database Management System (DBMS). 
+While the current implementation is configured to use MySQL, the application is architected to easily accommodate other DBMSs with minimal configuration changes.
 
-<p align="center">
-    <img title="Laravel Zero" height="100" src="https://raw.githubusercontent.com/laravel-zero/docs/master/images/logo/laravel-zero-readme.png" />
-</p>
+## Prerequisites
 
-<p align="center">
-  <a href="https://github.com/laravel-zero/framework/actions"><img src="https://github.com/laravel-zero/laravel-zero/actions/workflows/tests.yml/badge.svg" alt="Build Status"></img></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/dt/laravel-zero/framework.svg" alt="Total Downloads"></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/v/laravel-zero/framework.svg?label=stable" alt="Latest Stable Version"></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/l/laravel-zero/framework.svg" alt="License"></a>
-</p>
+Ensure you have the following installed on your system:
 
-<h4> <center>This is a <bold>community project</bold> and not an official Laravel one </center></h4>
+- Docker
+- Docker Compose
 
-Laravel Zero was created by [Nuno Maduro](https://github.com/nunomaduro) and [Owen Voke](https://github.com/owenvoke), and is a micro-framework that provides an elegant starting point for your console application. It is an **unofficial** and customized version of Laravel optimized for building command-line applications.
+## Getting Started
 
--   Built on top of the [Laravel](https://laravel.com) components.
--   Optional installation of Laravel [Eloquent](https://laravel-zero.com/docs/database/), Laravel [Logging](https://laravel-zero.com/docs/logging/) and many others.
--   Supports interactive [menus](https://laravel-zero.com/docs/build-interactive-menus/) and [desktop notifications](https://laravel-zero.com/docs/send-desktop-notifications/) on Linux, Windows & MacOS.
--   Ships with a [Scheduler](https://laravel-zero.com/docs/task-scheduling/) and a [Standalone Compiler](https://laravel-zero.com/docs/build-a-standalone-application/).
--   Integration with [Collision](https://github.com/nunomaduro/collision) - Beautiful error reporting
+1. Clone the repository to your local system.
+2. Navigate to the project folder.
 
----
 
-## Documentation
+## Configuration for MySQL (Default)
 
-For full documentation, visit [laravel-zero.com](https://laravel-zero.com/).
+The application is pre-configured for MySQL. 
+You need to adjust the path for your xml file in docker-compose.yml. Currently (feed.xml) which was provided with the task has been added in the project folder. 
+Follow these steps to build and run the Docker container:
 
-## Support the development
+1. Run the following command:
 
-**Do you like this project? Support it by donating**
+``
+docker-compose up -d
+``
 
--   PayPal: [Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66BYDWAT92N6L)
--   Patreon: [Donate](https://www.patreon.com/nunomaduro)
+2. After the image is created and the container is up, go to the Docker app and open a terminal in the 'app' service of the running container.
+3. Run the following command to ensure everything is set up correctly:
 
-## License
+``
+php xmltodb
+``
 
-Laravel Zero is an open-source software licensed under the MIT license.
+4. Run the migrations command to setup the database:
+
+``
+php xmltodb migrate
+``
+
+5. To process an XML file to the database, run the following command (replace "feed.xml" with your actual XML file name). 
+``
+php xmltodb app:all feed.xml
+``
+6.To run the tests, use the following command:
+``
+php xmltodb test
+``
+## Configuration 
+If you want to use a different DBMS, you need to modify the Dockerfile, docker-compose.yml file and the .env file to include the required PHP extensions and server configurations. 
+Here is an overview of what you need to do:
+
+1. Dockerfile: Add the necessary PHP extensions based on the DBMS.
+2. docker-compose.yml: Update the DB service according to your DBMS.
+3. .env: Update the database configuration parameters to match your DBMS.
+
+After making the changes, repeat the steps under "Configuration for MySQL" to build and run the application.
+
+## Limitations and Future Improvements
+1. The current test cases do not cover all possible scenarios. More test cases should be added in the future for more comprehensive testing.
+2. The application currently only supports DBMS. In future it can implemented for file storage as well
+For any issues or suggestions, feel free to open an issue on the GitHub repository.
+
