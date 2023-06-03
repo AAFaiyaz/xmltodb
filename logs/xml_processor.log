@@ -1,2 +1,10 @@
 [2023-06-02 11:55:13] development.ERROR: An error occurred while processing the XML file: simplexml_load_file(): I/O warning : failed to load external entity "feed.xmll"  
 [2023-06-02 12:00:22] development.ERROR: An error occurred while processing the XML file: simplexml_load_file(): I/O warning : failed to load external entity "feed.xmll"  
+[2023-06-03 19:31:52] development.ERROR: An error occurred while processing the XML file: simplexml_load_file(): I/O warning : failed to load external entity "/path/to/nonexistent/file.xml"  
+[2023-06-03 19:31:53] development.ERROR: An error occurred while processing the XML file: simplexml_load_file(): I/O warning : failed to load external entity "file:/C:/Users/Legion/Desktop/cli-application/xmlToDB/storage/app/test.xml"  
+[2023-06-03 19:31:53] development.ERROR: An error occurred while processing the XML file: simplexml_load_file(): I/O warning : failed to load external entity "file:/C:/Users/Legion/Desktop/cli-application/xmlToDB/storage/app/test.xml"  
+[2023-06-03 19:54:51] development.ERROR: Cannot use try without catch or finally {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot use try without catch or finally at C:\\Users\\Legion\\Desktop\\cli-application\\xmlToDB\\app\\Commands\\Users\\AllCommand.php:40)
+[stacktrace]
+#0 {main}
+"} 
+[2023-06-03 20:04:39] development.ERROR: An error occurred while processing the XML file: simplexml_load_file(): valid.xml:1: parser error : Document is empty  

@@ -2,21 +2,13 @@
 
 namespace App\Commands\Users;
 
-
 use App\Storage\StorageInterface;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 use Psr\Log\LoggerInterface as Log;
 
-
-
 class AllCommand extends Command
 {
-    /**
-     * The signature of the command.
-     *
-     * @var string
-     */
     protected $signature = 'app:all {path : The path to the XML file}';
     protected $description = 'Parse XML file to Database';
     protected $storage;
@@ -27,39 +19,29 @@ class AllCommand extends Command
         parent::__construct();
 
         $this->storage = $storage;
-
         $this->logger = $logger;
-
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-   public function handle() 
+    public function handle() 
     {
         try {
-
-        // Get the XML file path from the command argument
             $path = $this->argument('path');
-        // Load the XML file
-        
+
+            if (!file_exists($path)) {
+                $this->error('An error occurred while processing the XML file: Unable to open file.');
+                return 1;
+            }
+
             $xml = simplexml_load_file($path);
 
             if ($xml === false) {
-    $errors = libxml_get_errors();
-    libxml_clear_errors();
+                $errorMessage = 'An error occurred while processing the XML file: Malformed XML.';
+                $this->error($errorMessage);
+                $this->logger->error($errorMessage);
+                return 1;
+            }
 
-    $errorMessage = "Malformed XML file: {$path}. Error: " . $errors[0]->message;
-    $this->logger->error($errorMessage);  // This line logs the error message
-
-    throw new \RuntimeException($errorMessage);
-}
-
-            // Loop through each <item> element
             foreach ($xml->item as $item) {
-                // Access the fields
                 $entity_id = (string) $item->entity_id;
                 $CategoryName = (string) $item->CategoryName;
                 $sku = (string) $item->sku;
@@ -79,7 +61,6 @@ class AllCommand extends Command
                 $Facebook = (int) $item->Facebook;
                 $IsKCup = (int) $item->IsKCup;
 
-                // Now you can insert this data into your database
                 $this->storage->store([
                     'entity_id' => $entity_id,
                     'CategoryName' => $CategoryName,
@@ -100,23 +81,17 @@ class AllCommand extends Command
                     'Facebook' => $Facebook,
                     'IsKCup' => $IsKCup
                 ]);
-        }
-        $this->info('Successfully processed the XML file and stored the data in the database.');
-        } catch (\RuntimeException $e) {
-        $this->error('A runtime exception occurred, please check the log file for more details.');
-        $this->logger->error('A runtime exception occurred while processing the XML file: ' . $e->getMessage());
-    } catch (\Exception $e) {
-        $this->error('An error occurred, please check the log file for more details.');
-        $this->logger->error('An error occurred while processing the XML file: ' . $e->getMessage());
-    }
-}
+            }
 
-    /**
-     * Define the command's schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @return void
-     */
+            $this->info('Successfully processed the XML file and stored the data in the database.');
+        } catch (\Exception $e) {
+            $errorMessage = 'An error occurred while processing the XML file: ' . $e->getMessage();
+            $this->error($errorMessage);
+            $this->logger->error($errorMessage);
+            return 1;
+        }
+    }
+
     public function schedule(Schedule $schedule): void
     {
         // $schedule->command(static::class)->everyMinute();
