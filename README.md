@@ -43,13 +43,17 @@ php xmltodb migrate
 ``
 
 5. To process an XML file to the database, run the following command (replace "feed.xml" with your actual XML file name). 
+
 ``
 php xmltodb app:all feed.xml
 ``
+
 6.To run the tests, use the following command:
+
 ``
 php xmltodb test
 ``
+
 ## Configuration 
 If you want to use a different DBMS, you need to modify the Dockerfile, docker-compose.yml file and the .env file to include the required PHP extensions and server configurations. 
 Here is an overview of what you need to do:
