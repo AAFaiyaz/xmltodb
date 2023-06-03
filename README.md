@@ -19,7 +19,8 @@ Ensure you have the following installed on your system:
 ## Configuration for MySQL (Default)
 
 The application is pre-configured for MySQL. 
-You need to adjust the path for your xml file in docker-compose.yml. Currently (feed.xml) which was provided with the task has been added in the project folder. 
+You need to adjust the path for your xml file in docker-compose.yml. Currently (feed.xml) which was provided with the task has been added in the project folder.
+If you want to use the default feed.xml which is inside the project folder then you don't need to do any change related to xml file.
 Follow these steps to build and run the Docker container:
 
 1. Run the following command:
@@ -57,7 +58,17 @@ Here is an overview of what you need to do:
 2. docker-compose.yml: Update the DB service according to your DBMS.
 3. .env: Update the database configuration parameters to match your DBMS.
 
+
 After making the changes, repeat the steps under "Configuration for MySQL" to build and run the application.
+
+## Logging
+
+The application has built-in logging mechanisms for error tracking. Errors during the execution of the application are logged into a file for debugging and record-keeping purposes.
+
+The log file can be found at `logs/xml_rocessor.log` in the application directory.
+
+This provides a convenient way to track down any issues or unexpected behaviour during the XML data processing, making troubleshooting easier.
+
 
 ## Limitations and Future Improvements
 1. The current test cases do not cover all possible scenarios. More test cases should be added in the future for more comprehensive testing.
